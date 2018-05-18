@@ -1,3 +1,4 @@
+{% load show_list %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,12 +75,19 @@
         <div class="list">
             <h3>{{ pagename }}</h3>
             <table border="1">
-                <tr>
-                    {% for items in classesmsg %}
-                    <th>{{ items }}</th>
-                    {% endfor %}
-                </tr>
-
+{#                <tr>#}
+{#                    {% for items in classesmsg %}#}
+{#                    <th>{{ items }}</th>#}
+{#                    {% endfor %}#}
+{#                </tr>#}
+{#                {% for items in data.datalist %}#}
+{#                    <tr>#}
+{#                        <td>{{ items.id }}</td>#}
+{#                        <td>{{ items.name }}</td>#}
+{#                        <td><a href="javascript:void(0)">编辑</a>|<a href="javascript:void(0)">删除</a></td>#}
+{#                    </tr>#}
+{#                {% endfor %}#}
+                {{ classesmsg|list:data.datalist|safe }}
             </table>
             <ul class="pagination" id="page1"></ul>
             <div class="pageJump">
@@ -96,8 +104,8 @@
     <script src="/statics/pager.js"></script>
     <script>
         Page({
-			num:7,					//页码数
-			startnum:6,				//指定页码
+			num:{{ data.num }},					//页码数
+			startnum:1,				//指定页码
 			elem:$('#page1'),		//指定的元素
 			callback:function(n){	//回调函数
 				console.log(n);
