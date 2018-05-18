@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block head %}
+        <title>Index</title>
+    {% endblock %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .header-div {
+            height: 50px;
+            width: 100%;
+            padding: 10px;
+            line-height: 50px;
+            background-color: #4fa5ff;
+        }
+        li{
+            float:left;
+            margin:auto 10px;
+            list-style:none;
+            height:30px;
+            line-height:30px;
+            display: block;
+            clear: both;
+        }
+        a {
+            text-decoration: none;
+        }
+        .menu-div {
+            width: 100px;
+            height: 800px;
+            padding: 20px 50px;
+            background-color: #50d3ff;
+        }
+    </style>
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+    <div class="header-div">
+        <div style="width: 1200px; min-width: 950px; position: absolute; left: 50%; margin-left: -600px;">
+            <div style="display: inline-block;"><h1>后台管理</h1></div>
+            <div style="display: inline-block; float: right; margin-right: 20px;">
+                {% if request.session.username %}
+                    <span><a href="javascript:void(0)">{{ request.session.username }}</a>|<a href="/logout">退出</a></span>
+                {% else %}
+                    <span><a href="/login">登录</a>|<a href="/register">注册</a></span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div style="width: 1200px; min-width: 950px; position: absolute; left: 50%; margin-left: -600px;">
+        <div class="menu-div">
+            <ul style="margin-top: 20px;">
+                <li class="classes"><a href="/classmanage"><h4>班级管理</h4></a></li>
+                <li class="teacher"><a href="/teachermanage"><h4>教师管理</h4></a></li>
+                <li class="student"><a href="/studentmanage"><h4>学生管理</h4></a></li>
+            </ul>
+        </div>
+        {% block main %}
+        {% endblock %}
+    </div>
+    <script src="/statics/jquery-3.1.1.js"></script>
+    {% block js %}
+    {% endblock %}
+</body>
+</html>
