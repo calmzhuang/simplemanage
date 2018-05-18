@@ -17,7 +17,7 @@
             line-height: 50px;
             background-color: #4fa5ff;
         }
-        li{
+        .menu-list li{
             float:left;
             margin:auto 10px;
             list-style:none;
@@ -46,6 +46,7 @@
             line-height: 20px;
         }
     </style>
+    <link rel="stylesheet" href="/statics/pager.css">
     {% block css %}
     {% endblock %}
 </head>
@@ -64,7 +65,7 @@
     </div>
     <div style="width: 1200px; min-width: 950px; position: absolute; left: 50%; margin-left: -600px;">
         <div class="menu-div">
-            <ul style="margin-top: 20px;">
+            <ul class="menu-list" style="margin-top: 20px;">
                 <li class="classes"><a href="/classmanage"><h4>班级管理</h4></a></li>
                 <li class="teacher"><a href="/teachermanage"><h4>教师管理</h4></a></li>
                 <li class="student"><a href="/studentmanage"><h4>学生管理</h4></a></li>
@@ -80,11 +81,29 @@
                 </tr>
 
             </table>
+            <ul class="pagination" id="page1"></ul>
+            <div class="pageJump">
+                <span>跳转到</span>
+                <input type="text"/>
+                <span>页</span>
+                <button type="button" class="button">确定</button>
+            </div>
         </div>
         {% block main %}
         {% endblock %}
     </div>
     <script src="/statics/jquery-3.1.1.js"></script>
+    <script src="/statics/pager.js"></script>
+    <script>
+        Page({
+			num:7,					//页码数
+			startnum:6,				//指定页码
+			elem:$('#page1'),		//指定的元素
+			callback:function(n){	//回调函数
+				console.log(n);
+			}
+		});
+    </script>
     {% block js %}
     {% endblock %}
 </body>
