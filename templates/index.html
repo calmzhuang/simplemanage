@@ -34,6 +34,16 @@
             height: 800px;
             padding: 20px 50px;
             background-color: #50d3ff;
+            position: fixed;
+        }
+        .list {
+            position: absolute;
+            left: 250px;
+            float: left;
+        }
+        h3 {
+            margin: 20px 0px;
+            line-height: 20px;
         }
     </style>
     {% block css %}
@@ -59,6 +69,17 @@
                 <li class="teacher"><a href="/teachermanage"><h4>教师管理</h4></a></li>
                 <li class="student"><a href="/studentmanage"><h4>学生管理</h4></a></li>
             </ul>
+        </div>
+        <div class="list">
+            <h3>{{ pagename }}</h3>
+            <table border="1">
+                <tr>
+                    {% for items in classesmsg %}
+                    <th>{{ items }}</th>
+                    {% endfor %}
+                </tr>
+
+            </table>
         </div>
         {% block main %}
         {% endblock %}

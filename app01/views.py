@@ -41,7 +41,9 @@ class Login(views.View):
 @method_decorator(outer, name='get')
 class Classes(views.View):
     def get(self, request, *args, **kwargs):
-        return render(request, "classes.html")
+        pagename = "班级信息"
+        classesmsg = ["班级编号", "班级名称", "操作"]
+        return render(request, "classes.html", {"classesmsg": classesmsg, "pagename": pagename})
 
 class Logout(views.View):
     def get(self, request, *args, **kwargs):
