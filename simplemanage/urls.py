@@ -23,4 +23,6 @@ urlpatterns = [
     path('', views.Classes.as_view()),
     path('classes/', views.Classes.as_view()),
     path('logout/', views.Logout.as_view()),
+    path('student/', views.Students.as_view()),
+    path('teacher/', views.Teachers.as_view()),
 ]

@@ -1,5 +1,5 @@
 function Page(opt){
-		var set = $.extend({num:null,startnum:1,elem:null,callback:null},opt||{});
+		var set = $.extend({num:null,startnum:1,elem:null,urls:null,callback:null},opt||{});
 		if(set.startnum>set.num||set.startnum<1){
 			set.startnum = 1;
 		}
@@ -9,7 +9,7 @@ function Page(opt){
 			num:set.num,
 			callback:set.callback,
 			init:function(){
-				this.elem.next('div.pageJump').children('.button').unbind('click')
+				this.elem.next('div.pageJump').children('.button').unbind('click');
 				this.JumpPages();
 				this.elem.children('li').click(function () {
 					var txt = $(this).children('a').text();
@@ -23,8 +23,10 @@ function Page(opt){
 								}
 								if (page1 >= (clickpages.num - 2) || clickpages.num <= 6 || page1 < 3) {
 									ele = clickpages.elem.children('li.active').next();
+									// clickpages.getdatalist(page1+1)
 								} else {
 									clickpages.newPages('next', page1 + 1);
+									// clickpages.getdatalist(page1+1);
 									ele = clickpages.elem.children('li.active');
 								}
 								break;
@@ -34,8 +36,10 @@ function Page(opt){
 								}
 								if (page1 >= (clickpages.num - 1) || page1 <= 3 || clickpages.num <= 6) {
 									ele = clickpages.elem.children('li.active').prev();
+									// clickpages.getdatalist(page1-1);
 								} else {
 									clickpages.newPages('prev', page1 - 1);
+									// clickpages.getdatalist(page1-1);
 									ele = clickpages.elem.children('li.active');
 								}
 								break;
@@ -45,30 +49,35 @@ function Page(opt){
 								}
 								if (clickpages.num > 6) {
 									clickpages.newPages('«', 1);
+									// clickpages.getdatalist(1);
 								}
 								ele = clickpages.elem.children('li[page=1]');
 								break;
 							case '»':
+								console.log(clickpages.num);
 								if (page1 == clickpages.num) {
 									return;
 								}
 								if (clickpages.num > 6) {
 									clickpages.newPages('»', clickpages.num);
 								}
-								ele = clickpages.elem.children('li[page=' + clickpages.num + ']');
-								break;
+                                ele = clickpages.elem.children('li[page=' + clickpages.num + ']');
+                                // clickpages.getdatalist(clickpages.num);
+                                break;
 							case '...':
 								return;
 						}
-					} else {
-						if ((parseInt(txt) >= (clickpages.num - 3) || parseInt(txt) <= 3) && clickpages.num > 6) {
-							clickpages.newPages('jump', parseInt(txt));
+                    } else {
+                        // clickpages.(parseInt(txt));
+                        if ((parseInt(txt) >= (clickpages.num - 3) || parseInt(txt) <= 3) && clickpages.num > 6) {
+                            clickpages.newPages('jump', parseInt(txt));
 						}
 						ele = $(this);
 					}
 					page = clickpages.actPages(ele);
 					if (page != '' && page != page1) {
 						if (clickpages.callback){
+							clickpages.getdatalist(page);
 							clickpages.callback(parseInt(page));
 						}
 					}
@@ -90,15 +99,59 @@ function Page(opt){
 						var ele = clickpages.elem.children('li[page='+i+']');
 						clickpages.actPages(ele);
 						if (clickpages.callback){
+							clickpages.getdatalist(i);
 							clickpages.callback(i);
 						}
 						return;
 					}
 					
 					if (clickpages.callback){
+						clickpages.getdatalist(i);
 						clickpages.callback(i);
 					}
 				})
+			},
+
+			getdatalist:function(i) {
+				$.ajax({
+					url: set.urls,
+					type: "POST",
+					dataType: "JSON",
+					data: {
+						num: i,
+					},
+					success: function (data) {
+					    console.log(set.urls);
+						console.log(data.datalist);
+						var strs = "<tr>";
+						for (item in data.classesmsg){
+							strs += "<th>" + data.classesmsg[item] + "</th>";
+							}
+						for (item in data.datalist) {
+						    console.log(data.datalist[item]);
+                            strs += "</tr><tr>";
+                            strs += "<td>" + data.datalist[item]["id"] + "</td>";
+                            strs += "<td>" + data.datalist[item]["name"] + "</td>";
+                            if (data.datalist[item]['email']) {
+                                strs += "<td>" + data.datalist[item]["email"] + "</td>";
+                            }
+                            if (set.urls=='/teacher/') {
+                                if (data.datalist[item]['classes__name']) {
+                                    strs += "<td>" + data.datalist[item]["classes__name"] + "</td>";
+                                }
+                                else {
+                                    strs += "<td></td>";
+                                }
+                            }
+                            strs += "<td><a href=\"javascript:void(0)\">编辑</a>|<a href=\"javascript:void(0)\">删除</a></td>"
+                        }
+						strs +="</tr>";
+						$("table").html(strs)
+                    },
+                    error: function (data) {
+						console.log(data);
+                    },
+				});
 			},
 
 			//newpages
@@ -106,7 +159,7 @@ function Page(opt){
 				var html = "",htmlLeft="",htmlRight="",htmlC="";
 				var HL = '<li><a>...</a></li>';
 				html = '<li><a  aria-label="Previous">&laquo;</a></li>\
-					<li><a>上一页</a></li>'
+					<li><a>上一页</a></li>';
 				for (var n = 0;n<3;n++){
 					htmlC += '<li '+((n-1)==0?'class="active"':'')+' page="'+(i+n-1)+'"><a>'+(i+n-1)+'</a></li>';
 					htmlLeft += '<li '+((n+2)==i?'class="active"':'')+' page="'+(n+2)+'"><a>'+(n+2)+'</a></li>';

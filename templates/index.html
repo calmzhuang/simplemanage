@@ -67,9 +67,9 @@
     <div style="width: 1200px; min-width: 950px; position: absolute; left: 50%; margin-left: -600px;">
         <div class="menu-div">
             <ul class="menu-list" style="margin-top: 20px;">
-                <li class="classes"><a href="/classmanage"><h4>班级管理</h4></a></li>
-                <li class="teacher"><a href="/teachermanage"><h4>教师管理</h4></a></li>
-                <li class="student"><a href="/studentmanage"><h4>学生管理</h4></a></li>
+                <li class="classes"><a href="/classes"><h4>班级管理</h4></a></li>
+                <li class="teacher"><a href="/teacher"><h4>教师管理</h4></a></li>
+                <li class="student"><a href="/student"><h4>学生管理</h4></a></li>
             </ul>
         </div>
         <div class="list">
@@ -94,7 +94,7 @@
                 <span>跳转到</span>
                 <input type="text"/>
                 <span>页</span>
-                <button type="button" class="button">确定</button>
+                <button type="button" class="button" style="cursor: pointer;">确定</button>
             </div>
         </div>
         {% block main %}
@@ -102,16 +102,17 @@
     </div>
     <script src="/statics/jquery-3.1.1.js"></script>
     <script src="/statics/pager.js"></script>
-    <script>
-        Page({
-			num:{{ data.num }},					//页码数
-			startnum:1,				//指定页码
-			elem:$('#page1'),		//指定的元素
-			callback:function(n){	//回调函数
-				console.log(n);
-			}
-		});
-    </script>
+    <script src="/statics/csrf.js"></script>
+{#    <script>#}
+{#        Page({#}
+{#			num:{{ data.num }},					//页码数#}
+{#			startnum:1,				//指定页码#}
+{#			elem:$('#page1'),		//指定的元素#}
+{#			callback:function(n){	//回调函数#}
+{#				console.log(n);#}
+{#			}#}
+{#		});#}
+{#    </script>#}
     {% block js %}
     {% endblock %}
 </body>

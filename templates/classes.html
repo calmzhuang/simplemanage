@@ -1,8 +1,23 @@
 {% extends "index.html" %}
+
 {% block css %}
 <style>
     .classes {
         background-color: #80ffc4;
     }
 </style>
+{% endblock %}
+
+{% block js %}
+    <script>
+        Page({
+			num:{{ data.num }},					//页码数
+			startnum:1,				//指定页码
+			elem:$('#page1'),		//指定的元素
+            urls:"/classes/",
+			callback:function(n){	//回调函数
+				console.log(n);
+			}
+		});
+    </script>
 {% endblock %}
