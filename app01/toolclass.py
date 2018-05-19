@@ -15,3 +15,6 @@ class Tools():
         a = (int(num) - 1) * 5
         b = int(num) * 5
         return Teacher.objects.all().values("id", "name", "email", "classes__name").order_by("id")[a:b]
+
+    def class_list_insert(self, num):
+        Classmethod.objects.create(name=num)

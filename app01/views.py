@@ -83,6 +83,15 @@ class Classes(views.View):
         print(data)
         return HttpResponse(data)
 
+    def put(self, request, *args, **kwargs):
+        # data = str(request.body, encoding="utf-8")
+        data = request.body.decode('utf8')
+        data_list = data.split('-')
+        if data_list[0] == '0':
+            tool = Tools()
+            tool.class_list_insert(data_list[1])
+        return HttpResponse("True")
+
 @method_decorator(outer, name='dispatch')
 class Students(views.View):
     pagename = "学生信息"
